@@ -1,5 +1,4 @@
 BEGIN_TIGGER
-Change usage to look more like Git
 Write a makefile for tigger
 Modify README to list tasks.
 Add manual tigger delete.
@@ -7,3 +6,4 @@ Fix merge conflicts with .tigger and Git
 Separate tasks added by different users
 Mark off multiple tasks at once
 Auto-add .tigger to git repo on init
+Add undo completed task

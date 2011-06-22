@@ -10,3 +10,4 @@ Add completed tasks command to tigger
 Strip tasks read in from .tigger before processing
 Change output font color to orange
 Trim whitespace on tigger_completed items
+Change usage to look more like Git
