@@ -4,3 +4,4 @@ Add version numbers to usage
 Delete unecessary project files.
 Take tasks out of README
 Add install instructions to readme
+Change command output for better UI

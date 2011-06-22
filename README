@@ -7,7 +7,6 @@ Copy tigger executable into your /usr/bin folder.
 You're ready to roar.
 
 Usage:
-
 *navigate to a project directory that uses Git*
 tigger init //this initializes relevant tigger files
 
