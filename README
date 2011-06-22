@@ -1,4 +1,10 @@
-This is Tigger.
+This is Tigger.  
+
+Installation:
+Make sure ruby is installed .
+$ gem install grit
+Copy tigger executable into your /usr/bin folder.
+You're ready to roar.
 
 Usage:
 

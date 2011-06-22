@@ -3,4 +3,3 @@ Add install instructions to readme
 Change command output for better UI
 Change usage to look more like Git
 Write a makefile for tigger
-Take tasks out of README
