@@ -61,7 +61,7 @@ int tiggerExists(){
 }
 
 void printUsage(){
-	printf("Sorry we didn't recognize your command. Commands include:\n\t-init\n\t-new \"task-name\"\n\t-tasks\n");
+	printf("Tigger -v: 0.10\nSorry we didn't recognize your command. Commands include:\n\t-init\n\t-new \"task-name\"\n\t-tasks\n");
 }
 
 int isCommand(char *command){
