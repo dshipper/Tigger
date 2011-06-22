@@ -1,3 +1,4 @@
 Update new lines on print statements.
 Fix new/tasks command run when tigger is not present.
 Add version numbers to usage
+Delete unecessary project files.

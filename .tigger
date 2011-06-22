@@ -2,4 +2,5 @@ BEGIN_TIGGER
 Add install instructions to readme
 Change command output for better UI
 Change usage to look more like Git
-Delete unecessary project files.
+Write a makefile for tigger
+Take tasks out of README

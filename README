@@ -1,8 +1,5 @@
 This is Tigger.
 
-TODO:
--write a make file because otherwise I can't run it from the command line
-
 Usage:
 
 *navigate to a project directory that uses Git*
