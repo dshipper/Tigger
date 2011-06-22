@@ -1,4 +1,7 @@
 This is Tigger.  
+      
+Note because this is an early alpha there is no installer which means
+you have to do it by hand as explained below:
 
 Installation:
 Make sure ruby is installed .
