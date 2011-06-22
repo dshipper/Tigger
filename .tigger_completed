@@ -3,3 +3,4 @@ Fix new/tasks command run when tigger is not present.
 Add version numbers to usage
 Delete unecessary project files.
 Take tasks out of README
+Add install instructions to readme

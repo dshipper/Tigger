@@ -1,5 +1,7 @@
 BEGIN_TIGGER
-Add install instructions to readme
 Change command output for better UI
 Change usage to look more like Git
 Write a makefile for tigger
+Add completed tasks command to tigger
+Modify README to list tasks.
+Add manual tigger delete.
