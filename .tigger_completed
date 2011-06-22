@@ -7,3 +7,4 @@ Add install instructions to readme
 Change command output for better UI
 This is a task.
 Add completed tasks command to tigger
+Strip tasks read in from .tigger before processing
