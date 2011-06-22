@@ -226,7 +226,7 @@ int listTasks(){
 		return 0;
 	}
 	FILE *file = fopen(".tigger", "rt");
-	printf("\nLoading tasks from tigger...\n--------------------------------------------------------------\n--------------------------------------------------------------\n\n");
+	printf("\nLoading tasks from tigger...\n-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\n");
 	while(fgets(line, 255, file) != NULL){
 		if(!protectedText(line)){
 			count += 1;
@@ -237,8 +237,9 @@ int listTasks(){
 		}
 	}
 	if (count > 0){
-		printf("\n--------------------------------------------------------------\n--------------------------------------------------------------\n");
 		printf("You have %d tasks waiting to be completed.\n", count);
+		printf("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\n");
+		
 	}else{
 		printf("Yay! You have no tasks remaining. Go have a beer.\n");
 	}
