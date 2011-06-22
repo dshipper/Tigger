@@ -52,7 +52,7 @@ string commands[3];
 
 
 void printUsage(){
-	printf("Sorry we didn't recognize your command. Commands include:\n\t -init\n-new \"task-name\"\n\t-tasks");
+	printf("Sorry we didn't recognize your command. Commands include:\n\t-init\n\t-new \"task-name\"\n\t-tasks");
 }
 
 int isCommand(char *command){
