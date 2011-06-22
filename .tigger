@@ -1,5 +1,5 @@
 BEGIN_TIGGER
-Add version numbers to usage
 Add install instructions to readme
 Change command output for better UI
 Change usage to look more like Git
+Delete unecessary project files.
