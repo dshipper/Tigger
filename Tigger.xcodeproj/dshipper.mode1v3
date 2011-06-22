@@ -295,7 +295,7 @@
 							<real>186</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>-18 59 1440 819 0 0 1440 878 </string>
+						<string>-1 59 1440 819 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -325,41 +325,19 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>3E97724B13B190C400BF0A73</string>
+										<string>3E97725E13B1C08000BF0A73</string>
 										<key>history</key>
 										<array>
 											<string>3E97721E13B1867F00BF0A73</string>
 											<string>3E97723613B18AF300BF0A73</string>
 											<string>3E97723E13B18DEA00BF0A73</string>
-											<string>3E97724013B18DEA00BF0A73</string>
+											<string>3E97725313B1C05600BF0A73</string>
 										</array>
 										<key>prevStack</key>
 										<array>
 											<string>3E9771D913B17CCA00BF0A73</string>
 											<string>3E9771DA13B17CCA00BF0A73</string>
-											<string>3E9771DB13B17CCA00BF0A73</string>
-											<string>3E9771E413B17DD700BF0A73</string>
-											<string>3E9771F413B1830900BF0A73</string>
-											<string>3E9771F513B1830900BF0A73</string>
-											<string>3E9771F613B1830900BF0A73</string>
 											<string>3E9771F713B1830900BF0A73</string>
-											<string>3E9771F813B1830900BF0A73</string>
-											<string>3E9771F913B1830900BF0A73</string>
-											<string>3E9771FA13B1830900BF0A73</string>
-											<string>3E9771FB13B1830900BF0A73</string>
-											<string>3E9771FC13B1830900BF0A73</string>
-											<string>3E9771FD13B1830900BF0A73</string>
-											<string>3E9771FE13B1830900BF0A73</string>
-											<string>3E9771FF13B1830900BF0A73</string>
-											<string>3E97720413B183ED00BF0A73</string>
-											<string>3E97720513B183ED00BF0A73</string>
-											<string>3E97721B13B1857100BF0A73</string>
-											<string>3E97721F13B1867F00BF0A73</string>
-											<string>3E97722013B1867F00BF0A73</string>
-											<string>3E97722913B187C700BF0A73</string>
-											<string>3E97723813B18AF300BF0A73</string>
-											<string>3E97723913B18AF300BF0A73</string>
-											<string>3E97724113B18DEA00BF0A73</string>
 											<string>3E97724213B18DEA00BF0A73</string>
 										</array>
 									</dict>
@@ -374,7 +352,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {1232, 541}}</string>
 								<key>RubberWindowFrame</key>
-								<string>-18 59 1440 819 0 0 1440 878 </string>
+								<string>-1 59 1440 819 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -394,7 +372,7 @@
 								<key>Frame</key>
 								<string>{{0, 546}, {1232, 232}}</string>
 								<key>RubberWindowFrame</key>
-								<string>-18 59 1440 819 0 0 1440 878 </string>
+								<string>-1 59 1440 819 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -418,9 +396,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>3E97713913B12ED800BF0A73</string>
+				<string>3E97725A13B1C05E00BF0A73</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>3E97713A13B12ED800BF0A73</string>
+				<string>3E97725B13B1C05E00BF0A73</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -554,15 +532,11 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>3E97713D13B12ED800BF0A73</string>
-		<string>3E97713E13B12ED800BF0A73</string>
-		<string>1C78EAAD065D492600B07095</string>
-		<string>1CD10A99069EF8BA00B06720</string>
 		<string>3E97710C13B12B4600BF0A73</string>
 		<string>/Users/dshipper/Documents/Convenience Software/Tigger/Tigger.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>-18 59 1440 819 0 0 1440 878 </string>
+	<string>-1 59 1440 819 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -639,7 +613,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>3E97710C13B12B4600BF0A73</string>
-				<string>3E97710D13B12B4600BF0A73</string>
+				<string>3E97725F13B1C08000BF0A73</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>

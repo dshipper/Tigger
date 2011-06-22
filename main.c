@@ -50,6 +50,15 @@ typedef char * string;
 const int COMMAND_SIZE = 3;
 string commands[3];
 
+int tiggerExists(){
+	FILE * file = fopen(".tigger", "r");
+	if(file){        
+		fclose(file);        
+		return 1;    
+	}    
+	return 0;
+
+}
 
 void printUsage(){
 	printf("Sorry we didn't recognize your command. Commands include:\n\t-init\n\t-new \"task-name\"\n\t-tasks\n");
@@ -93,6 +102,10 @@ int initialize(){
 	 -if so add a post-commit hook to the $GIT_DIR/hooks
 	 -create a .tigger file which contains all of our tasks
 	 */
+	if(tiggerExists()){
+		printf("Sorry tigger has already been initialized.\n");
+		return 0;
+	}
 	if (checkForGit()){
 		//now we go in and modify the post-commit hook file to our liking
 		FILE *file;
@@ -118,6 +131,10 @@ int addTask(char *args[]){
 	 -write the task to the .tigger file
 	 -close the .tigger file
 	 */
+	if(!tiggerExists()){
+		printf("Sorry you need to initialize tigger before using this command.\n");
+		return 0;
+	}
 	if(args[2]){
 		if(strlen(args[2]) < 255){
 			FILE *file = fopen(".tigger", "a+");
@@ -155,6 +172,10 @@ int listTasks(){
 	 */
 	char line[255];
 	int count = 0;
+	if(!tiggerExists()){
+		printf("Sorry tigger has already been initialized.\n");
+		return 0;
+	}
 	FILE *file = fopen(".tigger", "rt");
 	printf("\nLoading tasks from tigger...\n--------------------------------------------------------------\n--------------------------------------------------------------\n\n");
 	while(fgets(line, 255, file) != NULL){

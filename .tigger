@@ -1,0 +1,2 @@
+BEGIN_TIGGER
+Fix new/tasks command run when tigger is not present.
