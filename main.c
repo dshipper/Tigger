@@ -99,6 +99,26 @@ typedef char * string;
 const int COMMAND_SIZE = 5;
 string commands[5];
 
+char *trimwhitespace(char *str)
+{
+	char *end;
+	
+	// Trim leading space
+	while(isspace(*str)) str++;
+	
+	if(*str == 0)  // All spaces?
+		return str;
+	
+	// Trim trailing space
+	end = str + strlen(str) - 1;
+	while(end > str && isspace(*end)) end--;
+	
+	// Write new null terminator
+	*(end+1) = 0;
+	
+	return str;
+}
+
 int tiggerExists(){
 	FILE * file = fopen(".tigger", "r");
 	if(file){        
@@ -230,7 +250,7 @@ int listTasks(){
 		if(!protectedText(line)){
 			count += 1;
 			printf("Task %d: \n", count);
-			printf(line);
+			printf(trimwhitespace(line));
 			printf("\n");
 			
 		}
