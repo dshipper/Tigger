@@ -96,8 +96,8 @@ char * tigger = "Task Management is What Tiggers Do Best!\n"
 
 typedef char * string;
 
-const int COMMAND_SIZE = 4;
-string commands[4];
+const int COMMAND_SIZE = 5;
+string commands[5];
 
 int tiggerExists(){
 	FILE * file = fopen(".tigger", "r");
@@ -105,12 +105,13 @@ int tiggerExists(){
 		fclose(file);        
 		return 1;    
 	}    
+	printf("Sorry you need to initialize tigger before using this command.\n");
 	return 0;
 
 }
 
 void printUsage(){
-	printf("Tigger -v: 0.11\nSorry we didn't recognize your command. Commands include:\n\t-init\n\t-new \"task-name\"\n\t-tasks\n\t-tig\n");
+	printf("Tigger -v: 0.12\nSorry we didn't recognize your command. Commands include:\n\t-init\n\t-new \"task-name\"\n\t-tasks\n\t-tig\n\t-completed\n");
 }
 
 int isCommand(char *command){
@@ -152,7 +153,6 @@ int initialize(){
 	 -create a .tigger file which contains all of our tasks
 	 */
 	if(tiggerExists()){
-		printf("Sorry tigger has already been initialized.\n");
 		return 0;
 	}
 	if (checkForGit()){
@@ -174,6 +174,7 @@ int initialize(){
 }
 
 
+
 int addTask(char *args[]){
 	/*This function does the following:
 	 -open up the .tigger file
@@ -181,7 +182,6 @@ int addTask(char *args[]){
 	 -close the .tigger file
 	 */
 	if(!tiggerExists()){
-		printf("Sorry you need to initialize tigger before using this command.\n");
 		return 0;
 	}
 	if(args[2]){
@@ -222,7 +222,6 @@ int listTasks(){
 	char line[255];
 	int count = 0;
 	if(!tiggerExists()){
-		printf("Sorry tigger has already been initialized.\n");
 		return 0;
 	}
 	FILE *file = fopen(".tigger", "rt");
@@ -247,6 +246,40 @@ int listTasks(){
 	return 1;
 }
 
+int completedTasks(){
+	/*This function does the following:
+	 -open up the .tigger_completed file
+	 -print out all of the tasks in the .tigger_completed file
+	 -close the .tigger_completed file
+	 */
+	char line[255];
+	int count = 0;
+	if(!tiggerExists()){
+		return 0;
+	}
+	FILE *file = fopen(".tigger_completed", "rt");
+	printf("\nLoading completed tasks from tigger...\n-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\n");
+	while(fgets(line, 255, file) != NULL){
+		if(!protectedText(line)){
+			count += 1;
+			printf("Task %d: \n", count);
+			printf(line);
+			printf("\n");
+			
+		}
+	}
+	if (count > 0){
+		printf("You have completed %d tasks. Congrats!\n", count);
+		printf("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\n");
+		
+	}else{
+		printf("You haven't completed any tasks and are lazy. That is all.\n");
+	}
+	fclose(file);
+	return 1;
+	
+}
+
 int processCommand(char *args[]){
 	if(args[1] != NULL){
 		if(!strcmp(args[1], "init")){
@@ -259,6 +292,8 @@ int processCommand(char *args[]){
 		}else if(!strcmp(args[1], "tig")){
 			printf(tigger);
 			return 1;
+		}else if(!strcmp(args[1], "completed")){
+			return completedTasks();
 		}
 	}
 	return 0;
@@ -272,6 +307,7 @@ void loadCommands(){
 	commands[1]	 = "new";
 	commands[2] = "tasks";
 	commands[3] = "tig";
+	commands[4] = "completed";
 }
 
 int main (int argc, char * argv[]) {
