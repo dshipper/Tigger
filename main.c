@@ -52,7 +52,7 @@ string commands[3];
 
 
 void printUsage(){
-	printf("Sorry we didn't recognize your command. Commands include:\n\t -init");
+	printf("Sorry we didn't recognize your command. Commands include:\n\t -init\n-new \"task-name\"\n\t-tasks");
 }
 
 int isCommand(char *command){
@@ -89,9 +89,9 @@ int checkForGit(){
 
 int initialize(){
 	/*This function does the following: 
-		-check to see if the current directory has a git repository in it
-		-if so add a post-commit hook to the $GIT_DIR/hooks
-		-create a .tigger file which contains all of our tasks
+	 -check to see if the current directory has a git repository in it
+	 -if so add a post-commit hook to the $GIT_DIR/hooks
+	 -create a .tigger file which contains all of our tasks
 	 */
 	if (checkForGit()){
 		//now we go in and modify the post-commit hook file to our liking
@@ -114,9 +114,9 @@ int initialize(){
 
 int addTask(char *args[]){
 	/*This function does the following:
-		-open up the .tigger file
-		-write the task to the .tigger file
-		-close the .tigger file
+	 -open up the .tigger file
+	 -write the task to the .tigger file
+	 -close the .tigger file
 	 */
 	if(args[2]){
 		if(strlen(args[2]) < 255){
@@ -148,9 +148,9 @@ int protectedText(char line[255]){
 
 int listTasks(){
 	/*This function does the following:
-		-open up the .tigger file
-		-print out all of the tasks in the .tigger file
-		-close the .tigger file
+	 -open up the .tigger file
+	 -print out all of the tasks in the .tigger file
+	 -close the .tigger file
 	 */
 	char line[255];
 	int count = 0;
