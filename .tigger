@@ -4,3 +4,6 @@ Write a makefile for tigger
 Add completed tasks command to tigger
 Modify README to list tasks.
 Add manual tigger delete.
+Strip tasks read in from .tigger before processing
+Fix merge conflicts with .tigger and Git
+Separate tasks added by different users
