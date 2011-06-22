@@ -1,1 +1,15 @@
-This is Tigger. I will write a README later.
+This is Tigger.
+
+TODO:
+-write a make file because otherwise I can't run it from the command line
+
+Usage:
+
+*navigate to a project directory that uses Git*
+tigger init //this initializes relevant tigger files
+
+tigger new "Complete this task"
+
+tigger tasks //will print out all the current tasks
+
+git commit -am "Complete this task" //Tigger will automagically know that you have completed a task
