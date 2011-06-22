@@ -7,4 +7,4 @@ Fix merge conflicts with .tigger and Git
 Separate tasks added by different users
 Mark off multiple tasks at once
 Auto-add .tigger to git repo on init
-Change output font color to orange
+Trim whitespace on tigger_completed items

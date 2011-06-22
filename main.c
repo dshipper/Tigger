@@ -131,7 +131,7 @@ int tiggerExists(){
 }
 
 void printUsage(){
-	printf("Tigger -v: 0.12\nSorry we didn't recognize your command. Commands include:\n\t-init\n\t-new \"task-name\"\n\t-tasks\n\t-tig\n\t-completed\n");
+	printf("Tigger -v: 0.13\nSorry we didn't recognize your command. Commands include:\n\t-init\n\t-new \"task-name\"\n\t-tasks\n\t-tig\n\t-completed\n");
 }
 
 int isCommand(char *command){
@@ -283,7 +283,7 @@ int completedTasks(){
 		if(!protectedText(line)){
 			count += 1;
 			printf("Task %d: \n", count);
-			printf(line);
+			printf(trimwhitespace(line));
 			printf("\n");
 			
 		}
