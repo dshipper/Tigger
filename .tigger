@@ -1,2 +1,4 @@
 BEGIN_TIGGER
-Fix new/tasks command run when tigger is not present.
+Add version numbers to usage
+Add install instructions to readme
+Change command output for better UI
