@@ -52,7 +52,7 @@ string commands[3];
 
 
 void printUsage(){
-	printf("Sorry we didn't recognize your command. Commands include:\n\t-init\n\t-new \"task-name\"\n\t-tasks");
+	printf("Sorry we didn't recognize your command. Commands include:\n\t-init\n\t-new \"task-name\"\n\t-tasks\n");
 }
 
 int isCommand(char *command){
@@ -83,7 +83,7 @@ int checkForGit(){
 		printf("Could not open directory. Please try again later.");
 		return 0;
 	}
-	printf("Could not find git repository. Please make sure git is initialized in this directory and then try again.");
+	printf("Could not find git repository. Please make sure git is initialized in this directory and then try again.\n");
 	return 0;
 }
 
@@ -126,6 +126,7 @@ int addTask(char *args[]){
 			fclose(file);
 			printf("Just added new task to tigger.\n");
 			printf(args[2]);
+			printf("\n");
 			return 1;
 		}else{
 			printf("Sorry you must enter a description that is less than 255 characters long.\n");
@@ -169,7 +170,7 @@ int listTasks(){
 		printf("\n--------------------------------------------------------------\n--------------------------------------------------------------\n");
 		printf("You have %d tasks waiting to be completed.\n", count);
 	}else{
-		printf("Yay! You have no tasks remaining. Go have a beer.");
+		printf("Yay! You have no tasks remaining. Go have a beer.\n");
 	}
 	fclose(file);
 	return 1;
@@ -203,7 +204,7 @@ int main (int argc, char * argv[]) {
 	if(argv[1] && isCommand(argv[1])){
 		//then we want to process the command
 		if (!processCommand(argv)){
-			printf("Your command was not processed.");
+			printf("Your command was not processed.\n");
 		}
 	}else{
 		printUsage();
