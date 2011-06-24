@@ -46,8 +46,7 @@ char * commit_hook = "#!/usr/bin/env ruby \n"
 "completed_tasks.each { |task| tigger_completed.write task } \n"
 "tigger_completed.close ";
 
-char * tigger = "Task Management is What Tiggers Do Best!\n"
-"			                          _.- -.- -._     ..                                                 \n"
+char * tigger = "			                          _.- -.- -._     ..                                                 \n"
 "			                             .;;'  .oe$$$eeu.. ,?;UU.                                        \n"
 "   		                          ,+'!!  e$$$$$$$R$$$$x ?xd$)                                        \n"
 "			                        ,'  !~ u$$$$F,$$$by,?$'e $F'        _ -                              \n"
@@ -93,7 +92,8 @@ char * tigger = "Task Management is What Tiggers Do Best!\n"
 												  "			                .:!!!!!!!!!!!!:                `!!!!!_  '                                    \n"
 												  "			              :::::::!?!!!!!!!!!                                                             \n"
 												  "			           :!!!!!!!!!!!!!!!!!!~                                                              \n"
-												  "			           `~!!!!!!!!!!!!!~~                                                                 \n";
+												  "			           `~!!!!!!!!!!!!!~~                                                                 \n"
+												"\t\tTask Management is What Tiggers Do Best!\n" ;
 
 
 typedef char * string;
