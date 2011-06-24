@@ -1,5 +1,4 @@
 BEGIN_TIGGER
-Write a makefile for tigger
 Modify README to list tasks.
 Add manual tigger delete.
 Fix merge conflicts with .tigger and Git
