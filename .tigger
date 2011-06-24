@@ -1,12 +1,11 @@
 BEGIN_TIGGER
-Modify README to list tasks.
 Add manual tigger delete.
-Fix merge conflicts with .tigger and Git
 Separate tasks added by different users
-Mark off multiple tasks at once
-Auto-add .tigger to git repo on init
 Add undo completed task
+Add better tracking of who completed what task
+Make it look and feel right
 this is a great way to pass messages to coworkers without it being posted on github or anywhere else
 fffffffffffffffffffffffffffffffffasddsadsasdsfn.nas,m.nfffffffffweasdoji;ojf
 that one especially will be a bitch
 fixing stupid shit scott did
+Say on completed what tasks have been completed today and by whom
