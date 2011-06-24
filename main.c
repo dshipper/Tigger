@@ -38,7 +38,7 @@ int tiggerExists(){
 }
 
 void printUsage(){
-	printf("Tigger -v: 0.20\nSorry we didn't recognize your command. Usage: tigger [COMMAND] [PARAMS] \nCommands include but are not limited to:\n\tinit\n\tnew [\"task-name\"]\n\ttasks\n\ttig\n\tcompleted\n");
+	printf("Tigger -v: 0.21\nSorry we didn't recognize your command. Usage: tigger [COMMAND] [PARAMS] \nCommands include but are not limited to:\n\tinit\n\tnew [\"task-name\"]\n\ttasks\n\ttig\n\tcompleted\n\tdelete [\"task-name\"]\n");
 }
 
 int isCommand(char *command){
@@ -216,6 +216,38 @@ int completedTasks(){
 	
 }
 
+int deleteTask(char * task){ 
+	char line[255];
+	const char *TIGGER_FILE_NAME = ".tigger";
+	const char *TIGGER_TEMP = ".tigger_temp";
+	int found = 0;
+	if(task == NULL){
+		printf("Can't delete a null task.\n");
+		return 0;
+	}     
+	FILE *file = fopen(TIGGER_FILE_NAME, "r");
+	FILE *temp = fopen(TIGGER_TEMP, "w");                                                                      
+	while(fgets(line, 255, file) != NULL){
+		if(strcmp(trimwhitespace(line), trimwhitespace(task)) != 0){
+			fprintf(temp, line);
+			fprintf(temp, "\n");  
+		}else{
+			found = 1;
+		}
+	}
+	fclose(file);
+	fclose(temp);
+	if(found){
+		printf("We found your task and deleted it.\n");
+		system("rm .tigger");
+		rename(TIGGER_TEMP, TIGGER_FILE_NAME);  
+	}else{
+		system("rm .tigger_temp");
+		printf("Sorry we couldn't find the task to delete.\n");
+		return 0;
+	}
+}
+
 int processCommand(char *args[]){
 	if(args[1] != NULL){
 		if(!strcmp(args[1], "init")){
@@ -230,6 +262,8 @@ int processCommand(char *args[]){
 			return 1;
 		}else if(!strcmp(args[1], "completed")){
 			return completedTasks();
+		}else if(!strcmp(args[1], "delete")){
+			return deleteTask(args[2]);
 		}
 	}
 	return 0;
@@ -244,6 +278,7 @@ void loadCommands(){
 	commands[2] = "tasks";
 	commands[3] = "tig";
 	commands[4] = "completed";
+	commands[5] = "delete";
 }
 
 int main (int argc, char * argv[]) {

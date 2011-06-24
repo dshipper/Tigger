@@ -98,5 +98,5 @@ char * tigger = "Task Management is What Tiggers Do Best!\n"
 
 typedef char * string;
 
-const int COMMAND_SIZE = 5;
-string commands[5];
+const int COMMAND_SIZE = 6;
+string commands[6];
