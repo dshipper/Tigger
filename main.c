@@ -39,7 +39,7 @@ int tiggerExists(){
 }
 
 void printUsage(){
-	printf("Tigger -v: 0.21\nSorry we didn't recognize your command. Usage: tigger [COMMAND] [PARAMS] \nCommands include but are not limited to:\n\tinit\n\tnew [\"task-name\"]\n\ttasks\n\ttig\n\tcompleted\n\tdelete [\"task-name\"]\n\ttoday\n");
+	printf("Tigger -v: 0.25\nSorry we didn't recognize your command. Usage: tigger [COMMAND] [PARAMS] \nCommands include but are not limited to:\n\tinit\n\tnew [\"task-name\"]\n\ttasks\n\ttig\n\tcompleted\n\tdelete [\"task-name\"]\n\ttoday\n");
 }
 
 int isCommand(char *command){
@@ -92,7 +92,7 @@ int initialize(char *args[]){
 		//now we go in and modify the post-commit hook file to our liking 
 		FILE *file;
 		file = fopen(".git/hooks/post-commit", "w");
-		fprintf(file, commit_hook);
+		fprintf(file, "%s", commit_hook);
 		fclose(file);
 		system("chmod 744 .git/hooks/post-commit");
 		file = fopen(".tigger", "w");
@@ -124,11 +124,11 @@ int addTask(char *args[]){
 	if(args[2]){
 		if(strlen(args[2]) < 255){
 			FILE *file = fopen(".tigger", "a+");
-			fprintf(file, args[2]);
+			fprintf(file, "%s", args[2]);
 			fprintf(file, "\n");
 			fclose(file);
 			printf("Just added new task to tigger.\n");
-			printf(args[2]);
+			printf("%s", args[2]);
 			printf("\n");
 			return 1;
 		}else{
@@ -167,7 +167,7 @@ int listTasks(){
 		if(!protectedText(line)){
 			count += 1;
 			printf("Task %d: \n", count);
-			printf(trimwhitespace(line));
+			printf("%s", trimwhitespace(line));
 			printf("\n");
 
 		}
@@ -232,7 +232,7 @@ int completedTasks(){
 			}  
 			new_string = &line[index+7];
 			printf("Task %d: \n", count);
-			printf(trimwhitespace(new_string));
+			printf("%s",trimwhitespace(new_string));
 			printf("\n");
 
 		}
@@ -263,7 +263,7 @@ int deleteTask(char * task){
 	FILE *temp = fopen(TIGGER_TEMP, "w");                                                                      
 	while(fgets(line, 255, file) != NULL){
 		if(strcmp(trimwhitespace(line), trimwhitespace(task)) != 0){
-			fprintf(temp, line);
+			fprintf(temp, "%s",line);
 			fprintf(temp, "\n");  
 		}else{
 			found = 1;
@@ -292,7 +292,7 @@ int processCommand(char *args[]){
 		}else if(!strcmp(args[1], "tasks")){
 			return listTasks();
 		}else if(!strcmp(args[1], "tig")){
-			printf(tigger);
+			printf("%s",tigger);
 			return 1;
 		}else if(!strcmp(args[1], "completed")){
 			return completedTasks();
