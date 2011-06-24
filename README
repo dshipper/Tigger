@@ -4,9 +4,8 @@ Note because this is an early alpha there is no installer which means
 you have to do it by hand as explained below:
 
 Installation:
-Make sure ruby is installed .
-$ gem install grit
-Copy tigger executable into your /usr/bin folder.
+Navigate to the directory you downloaded tigger to.
+Type "make"
 You're ready to roar.
 
 Usage:

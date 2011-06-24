@@ -26,7 +26,7 @@ char * commit_hook = "#!/usr/bin/env ruby \n"
 
 "tasks.each do | task | \n"
 "commits.each do | commit | \n"                                                         
-"if (task.strip.upcase == commit.message.strip.upcase) \n"
+"if (commit.message.strip.upcase.index(task.strip.upcase) != nil) \n"
 "completed_tasks << task \n"
 "tasks.delete task \n" 
 "puts('Completed task: ' + commit.message + '.')\n "
