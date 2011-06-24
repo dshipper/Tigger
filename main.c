@@ -3,7 +3,8 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <stdlib.h>
-#include <string.h>
+#include <string.h>    
+#include <time.h>
 #include "tigger_util.h"
 
 char *trimwhitespace(char *str)
@@ -38,7 +39,7 @@ int tiggerExists(){
 }
 
 void printUsage(){
-	printf("Tigger -v: 0.21\nSorry we didn't recognize your command. Usage: tigger [COMMAND] [PARAMS] \nCommands include but are not limited to:\n\tinit\n\tnew [\"task-name\"]\n\ttasks\n\ttig\n\tcompleted\n\tdelete [\"task-name\"]\n");
+	printf("Tigger -v: 0.21\nSorry we didn't recognize your command. Usage: tigger [COMMAND] [PARAMS] \nCommands include but are not limited to:\n\tinit\n\tnew [\"task-name\"]\n\ttasks\n\ttig\n\tcompleted\n\tdelete [\"task-name\"]\n\ttoday\n");
 }
 
 int isCommand(char *command){
@@ -182,6 +183,29 @@ int listTasks(){
 	return 1;
 }    
 
+int tiggerToday(){                                           
+	int count = 0;
+	char * found;
+	char * delim = "<?TIG?>"; 
+	char line[255];
+	char stime[10]; 
+	int itime = 0;
+	FILE *file = fopen(".tigger_completed", "r");             
+	while(fgets(line, 255, file) != NULL){
+		if(!protectedText(line)){     
+			found = strstr(line, delim); 
+			int place = found-line;
+			strncpy(stime, line, place);
+			itime = atoi(stime);
+			if(itime > (time(NULL) - 86400)){
+				count += 1; 
+			}
+		}
+	}
+	printf("%d tasks have been completed today.\n", count);
+}
+     
+
 int completedTasks(){
 	/*This function does the following:
 	 -open up the .tigger_completed file
@@ -223,7 +247,8 @@ int completedTasks(){
 	fclose(file);
 	return 1;
 
-}
+} 
+
 
 int deleteTask(char * task){ 
 	char line[255];
@@ -273,6 +298,9 @@ int processCommand(char *args[]){
 			return completedTasks();
 		}else if(!strcmp(args[1], "delete")){
 			return deleteTask(args[2]);
+		}else if(!strcmp(args[1], "today")){
+			tiggerToday();   
+			return 1;
 		}
 	}
 	return 0;
@@ -283,11 +311,12 @@ int processCommand(char *args[]){
 
 void loadCommands(){
 	commands[0] = "init";
-	commands[1]	 = "new";
+	commands[1]	= "new";
 	commands[2] = "tasks";
 	commands[3] = "tig";
 	commands[4] = "completed";
-	commands[5] = "delete";
+	commands[5] = "delete"; 
+	commands[6] = "today";
 }
 
 int main (int argc, char * argv[]) {
