@@ -38,7 +38,7 @@ int tiggerExists(){
 }
 
 void printUsage(){
-	printf("Tigger -v: 0.18\nSorry we didn't recognize your command. Usage: tigger [COMMAND] [PARAMS] \nCommands include but are not limited to:\n\tinit\n\tnew [\"task-name\"]\n\ttasks\n\ttig\n\tcompleted\n");
+	printf("Tigger -v: 0.19\nSorry we didn't recognize your command. Usage: tigger [COMMAND] [PARAMS] \nCommands include but are not limited to:\n\tinit\n\tnew [\"task-name\"]\n\ttasks\n\ttig\n\tcompleted\n");
 }
 
 int isCommand(char *command){
@@ -73,23 +73,28 @@ int checkForGit(){
 	return 0;
 }
 
-int initialize(){
+int initialize(char *args[]){
 	/*This function does the following: 
 	 -check to see if the current directory has a git repository in it
 	 -if so add a post-commit hook to the $GIT_DIR/hooks
 	 -create a .tigger file which contains all of our tasks
 	 */
-	if(tiggerExists()){
-		return 0;
+	if(tiggerExists()){ 
+		if (strcmp("-f",args[2]) != 0){
+			printf("Tigger has already been initialized in this directory.\n");
+			printf("Reinitializing will overwrite all of your current tasks.\n");
+			printf("If you really want to reinitialize, you can use the -f flag after tigger init.\n\n");
+			return 0; 
+		}                           
 	}
 	if (checkForGit()){
-		//now we go in and modify the post-commit hook file to our liking
+		//now we go in and modify the post-commit hook file to our liking 
 		FILE *file;
-		file = fopen(".git/hooks/post-commit", "w+");
+		file = fopen(".git/hooks/post-commit", "w");
 		fprintf(file, commit_hook);
 		fclose(file);
 		system("chmod 744 .git/hooks/post-commit");
-		file = fopen(".tigger", "w+");
+		file = fopen(".tigger", "w");
 		fprintf(file, "BEGIN_TIGGER\n");
 		fclose(file);
 		printf("Done.\n");
@@ -108,7 +113,7 @@ int addTask(char *args[]){
 	 -write the task to the .tigger file
 	 -close the .tigger file
 	 */
-	if(!tiggerExists()){
+	if(!tiggerExists(args)){
 		return 0;
 	}
 	if(args[2]){
@@ -211,7 +216,7 @@ int processCommand(char *args[]){
 	if(args[1] != NULL){
 		if(!strcmp(args[1], "init")){
 			printf("Initializing Tigger in the current directory.\n");
-			return initialize();
+			return initialize(args);
 		}else if(!strcmp(args[1], "new")){
 			return addTask(args);
 		}else if(!strcmp(args[1], "tasks")){
