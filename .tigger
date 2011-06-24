@@ -1,5 +1,4 @@
 BEGIN_TIGGER
-Add manual tigger delete.
 Separate tasks added by different users
 Add better tracking of who completed what task
 Make it look and feel right

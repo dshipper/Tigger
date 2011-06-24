@@ -32,7 +32,7 @@ int tiggerExists(){
 		fclose(file);        
 		return 1;    
 	}    
-	printf("Sorry you need to initialize tigger before using this command.\n");
+	// printf("Sorry you need to initialize tigger before using this command.\n");
 	return 0;
 
 }
@@ -79,8 +79,8 @@ int initialize(char *args[]){
 	 -if so add a post-commit hook to the $GIT_DIR/hooks
 	 -create a .tigger file which contains all of our tasks
 	 */
-	if(tiggerExists()){ 
-		if (strcmp("-f",args[2]) != 0){
+	if(tiggerExists()){  
+		if (args[2] == NULL || strcmp("-f",args[2]) != 0){
 			printf("Tigger has already been initialized in this directory.\n");
 			printf("Reinitializing will overwrite all of your current tasks.\n");
 			printf("If you really want to reinitialize, you can use the -f flag after tigger init.\n\n");
