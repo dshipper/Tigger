@@ -4,100 +4,7 @@
 #include <dirent.h>
 #include <stdlib.h>
 #include <string.h>
-
-char * commit_hook = "#!/usr/bin/env ruby \n"
-
-"require 'grit' \n"
-"include Grit \n"
-
-"puts 'Running tigger....' \n"
-"puts 'Matching tasks and commit messages.' \n"
-
-"repo = Repo.new('./') \n"
-"commits = repo.commits \n"
-
-"tigger = File.new('.tigger', 'r') \n"
-"tasks = Array.new \n"
-"completed_tasks = Array.new \n"
-
-"tigger.each_line { |line|  tasks << line } \n"
-
-"tasks.each do | task | \n"
-"commits.each do | commit | \n"                                                         
-"if (task.strip.upcase == commit.message.strip.upcase) \n"
-"completed_tasks << task \n"
-"tasks.delete task \n" 
-"puts('Completed task: ' + commit.message + '.')\n "
-"end \n"
-"end  \n"  
-"end\n "
-
-"tigger.close\n "
-
-"tigger = File.new('.tigger', 'w') \n"
-
-"tasks.each { |task| tigger.write task } \n"
-
-"tigger.close  \n"
-
-"tigger_completed = File.new('.tigger_completed', 'a+') \n"
-"completed_tasks.each { |task| tigger_completed.write task } \n"
-"tigger_completed.close ";
-
-char * tigger = "Task Management is What Tiggers Do Best!\n"
-"			                          _.- -.- -._     ..                                                 \n"
-"			                             .;;'  .oe$$$eeu.. ,?;UU.                                        \n"
-"   		                          ,+'!!  e$$$$$$$R$$$$x ?xd$)                                        \n"
-"			                        ,'  !~ u$$$$F,$$$by,?$'e $F'        _ -                              \n"
-"			              .,;,.   ,dm  :! $$$$$$d( )$( )?d$F       _ -       _                           \n"
-"			             !?????X!!!!~!!!X!.'?????$$$F'.:::::::   -   .  - ~                              \n"
-"			             +$$$$$m@`!!   ~? `!kCCU$$$$ ::::::::: g~  ~ -  _                                \n"
-"			              '$BeCeW$:`~..__~x W$$$$$$$e `:::::'.$F           ~                             \n"
-"			                '****'      ,``~~?$:=$$$$$$epppe$F`                                          \n"
-"			                        , '   ,    ?W.''??$$FFF' *.                                          \n"
-"			                      '     .     . ?$$e. ==+* ..$f                                          \n"
-"			                   '     . '      H!.?$$$$$$$$$$$f                                           \n"
-"			                      . '        !!!! ?$$$$$$$$$$                                            \n"
-"			                             . ~!!!!!? ?$$$$$$$f.                                            \n"
-"			                         . '     !!!!~*..****C.-!:..                                         \n"
-"			                  . -  ~!!!:.    ?!!~.$$$$$$$$$$.!!!!:` .                                    \n"
-"			             .- ~!::.    !!!!!.  ?X e$$$$$$$$$$$$.`!!!   .! - _                              \n"
-"			         . `~!?: ~!!!!!  !!!!!!!!! $$$$$$$$$$$$$$$  !!   !!     !?                           \n"
-"			        '      !!:!!!!!!!!!!!!!!!`:$$$$$$$$$$$$$$$U ~ :!!!!    !!~ `                         \n"
-"			     .:::::...  !!!!!!!!~~~~!!!!X $$$$$$$$$$$$$$$$$  !!!!!...:&lt;~`   `                     \n"
-"			    +   ~~!!!!!!!!~~     ::!!!!!':$$$$$$$$$$$$$$$$$~ *~~!!!!*`     .:!                       \n"
-"			   ::::::::!!!!          '`~~!!~ *""$$$$$$$$$$$$$$$~       !!!!!!!!!``                       \n"
-"			  ,'`~~!!!!!!~           :        u$$$$$$$$$$$$$$$$~       !!!!``'   ;                       \n"
-"			 . .... ~!!!             .   ..+ $$$$$$$$$$$$$$$$$$~      .!!!!!!?:::-                       \n"
-"			 !!!!!!!!!!!!::::+       !!~~~~~ **''$$$$$$$$$$$$$*    .+!!!!!!!!(  ,                        \n"
-"			;!!!!!!!!!!!!!!!~        !!!::.. ue$$$$$$$$$$$$$$$~ !!!!!!!!!!!!!!!!                         \n"
-"			!!!!!!!!!!!``            ~!!!!!! $$$$$$$$$$$$$$$$$     !!!!!!!!!!!!                          \n"
-"			!!!!!!!!!!!             .   `~~! $$$$$$$$$$$$$$$$`    :!!!!!!!!!!X`                          \n"
-"			~!!!!!!!!!!             ....::!! $$$$$$$$$$$$$$$$     !!!!!!!!!!~                            \n"
-"			 `~!!!!!!!!             !!!!!!!!m$$$$$$$$$$$$$$$      !!!!!!!*`                              \n"
-"			   `*~X!~*              !!!!!!!*:$$$$$$$$$$$$$$~      ``((`                                  \n"
-"			                      :!!::   ` '?I$$$$$$$$$$$`                                              \n"
-"			                      `~!!!!!- e$$$$$$$$$$$$$~                                               \n"
-"			                   '     `*~! $$$$$$$$$$$$$$' .                                              \n"
-"			                .:!:.     .: e$$$$$$$$$$$$$' ~  `                                            \n"
-"			              '    `~!!!!!!~:$$$$$$$$$$$$* :*    :!       ......                             \n"
-"			           ::::::..   ~!!!` $$$$$$$$$$$$':!~  :!!` `  .!!!!!!!!!!                            \n"
-"			          -~!!!!!!!!::..!! 8$$$$$$$$$$*.!!!..!!~ ..- :!!!!!!!~!!!~                           \n"
-"			        '     '~~!!!!!!!!! #$$$$$$$$*(!!!!!!!!!.+!~ :!!!!!~`- -`!                            \n"
-												  "			      ;            `!!!!!!!.'*$$**' `````'`!!!!!!! !!!!!~                                    \n"
-												  "			                ..  .!!!!!~~`               `!!!!`:!!!`        '                             \n"
-												  "			      `.:!!!!!!!!!!!!!!~:                     !!!!!!!~       '                               \n"
-												  "			       ~!!!!!!!~~`~!!!!!!:::                  ~!!!!!!      '                                 \n"
-												  "			                .:!!!!!!!!!!!!:                `!!!!!_  '                                    \n"
-												  "			              :::::::!?!!!!!!!!!                                                             \n"
-												  "			           :!!!!!!!!!!!!!!!!!!~                                                              \n"
-												  "			           `~!!!!!!!!!!!!!~~                                                                 \n";
-
-
-typedef char * string;
-
-const int COMMAND_SIZE = 5;
-string commands[5];
+#include "tigger_util.h"
 
 char *trimwhitespace(char *str)
 {
@@ -131,7 +38,7 @@ int tiggerExists(){
 }
 
 void printUsage(){
-	printf("Tigger -v: 0.14\nSorry we didn't recognize your command. Usage: tigger [COMMAND] [PARAMS] \nCommands include but are not limited to:\n\tinit\n\tnew [\"task-name\"]\n\ttasks\n\ttig\n\tcompleted\n");
+	printf("Tigger -v: 0.16\nSorry we didn't recognize your command. Usage: tigger [COMMAND] [PARAMS] \nCommands include but are not limited to:\n\tinit\n\tnew [\"task-name\"]\n\ttasks\n\ttig\n\tcompleted\n");
 }
 
 int isCommand(char *command){
