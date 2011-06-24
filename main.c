@@ -38,7 +38,7 @@ int tiggerExists(){
 }
 
 void printUsage(){
-	printf("Tigger -v: 0.19\nSorry we didn't recognize your command. Usage: tigger [COMMAND] [PARAMS] \nCommands include but are not limited to:\n\tinit\n\tnew [\"task-name\"]\n\ttasks\n\ttig\n\tcompleted\n");
+	printf("Tigger -v: 0.20\nSorry we didn't recognize your command. Usage: tigger [COMMAND] [PARAMS] \nCommands include but are not limited to:\n\tinit\n\tnew [\"task-name\"]\n\ttasks\n\ttig\n\tcompleted\n");
 }
 
 int isCommand(char *command){
@@ -96,7 +96,11 @@ int initialize(char *args[]){
 		system("chmod 744 .git/hooks/post-commit");
 		file = fopen(".tigger", "w");
 		fprintf(file, "BEGIN_TIGGER\n");
-		fclose(file);
+		fclose(file);  
+		system("git add .tigger");
+		file = fopen(".tigger_completed", "w"); \
+		fclose(file);                            
+		system("git add .tigger_completed");
 		printf("Done.\n");
 		return 1;
 	}else{
