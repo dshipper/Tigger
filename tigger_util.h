@@ -27,7 +27,7 @@ char * commit_hook = "#!/usr/bin/env ruby \n"
 "tasks.each do | task | \n"
 "commits.each do | commit | \n"                                                         
 "if (commit.message.strip.upcase.index(task.strip.upcase) != nil) \n"
-"completed_tasks << (task + '<?TIG?>' + Time.now.to_i.to_s + '\n') \n"
+"completed_tasks << (Time.now.to_i.to_s + \"<?TIG?>\" + task) \n"
 "tasks.delete task \n" 
 "puts('Completed task: ' + task.strip + '.')\n "
 "end \n"
@@ -98,5 +98,5 @@ char * tigger = "			                          _.- -.- -._     ..                
 
 typedef char * string;
 
-const int COMMAND_SIZE = 6;
-string commands[6];
+const int COMMAND_SIZE = 7;
+string commands[7];

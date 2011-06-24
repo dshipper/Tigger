@@ -9,20 +9,20 @@
 char *trimwhitespace(char *str)
 {
 	char *end;
-	
+
 	// Trim leading space
 	while(isspace(*str)) str++;
-	
+
 	if(*str == 0)  // All spaces?
 		return str;
-	
+
 	// Trim trailing space
 	end = str + strlen(str) - 1;
 	while(end > str && isspace(*end)) end--;
-	
+
 	// Write new null terminator
 	*(end+1) = 0;
-	
+
 	return str;
 }
 
@@ -54,7 +54,7 @@ int isCommand(char *command){
 int checkForGit(){
 	DIR *dp;
 	struct dirent *ep;
-	
+
 	dp = opendir ("./");
 	if (dp != NULL)
     {
@@ -134,7 +134,7 @@ int addTask(char *args[]){
 			printf("Sorry you must enter a description that is less than 255 characters long.\n");
 			return 0;
 		}
-		
+
 	}else{
 		printUsage();
 		return 0;
@@ -168,19 +168,19 @@ int listTasks(){
 			printf("Task %d: \n", count);
 			printf(trimwhitespace(line));
 			printf("\n");
-			
+
 		}
 	}
 	if (count > 0){
 		printf("You have %d tasks waiting to be completed.\n", count);
 		printf("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\n");
-		
+
 	}else{
 		printf("Yay! You have no tasks remaining. Go have a beer.\n");
 	}
 	fclose(file);
 	return 1;
-}
+}    
 
 int completedTasks(){
 	/*This function does the following:
@@ -189,7 +189,11 @@ int completedTasks(){
 	 -close the .tigger_completed file
 	 */
 	char line[255];
-	int count = 0;
+	int count = 0; 
+	char * delim = "<?TIG?>";
+	char * found;   
+	size_t index;  
+	char *new_string;
 	if(!tiggerExists()){
 		return 0;
 	}
@@ -197,23 +201,28 @@ int completedTasks(){
 	printf("\nLoading completed tasks from tigger...\n-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\n");
 	while(fgets(line, 255, file) != NULL){
 		if(!protectedText(line)){
-			count += 1;
+			count += 1;    
+			found = strstr(line, delim);
+			if(found != NULL){
+				index = found - line;
+			}  
+			new_string = &line[index+7];
 			printf("Task %d: \n", count);
-			printf(trimwhitespace(line));
+			printf(trimwhitespace(new_string));
 			printf("\n");
-			
+
 		}
 	}
 	if (count > 0){
 		printf("You have completed %d tasks. Congrats!\n", count);
 		printf("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\n");
-		
+
 	}else{
 		printf("You haven't completed any tasks and are lazy. That is all.\n");
 	}
 	fclose(file);
 	return 1;
-	
+
 }
 
 int deleteTask(char * task){ 
