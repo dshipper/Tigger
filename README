@@ -8,8 +8,7 @@ Navigate to the directory you downloaded tigger to.
 Type "make"
 You're ready to roar.
 
-Usage:
-*navigate to a project directory that uses Git*
+Usage: (In a project dir that uses Git)
 tigger init //this initializes relevant tigger files
 
 tigger new "Complete this task"
