@@ -8,7 +8,7 @@
  */
 
 char * commit_hook = "#!/usr/bin/env ruby \n"
-
+"require 'rubygems' \n"
 "require 'grit' \n"
 "include Grit \n"
 
