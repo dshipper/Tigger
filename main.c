@@ -1,3 +1,4 @@
+#include <ctype.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <sys/types.h>
@@ -6,6 +7,52 @@
 #include <string.h>    
 #include <time.h>
 #include "tigger_util.h"
+
+/* color helper function definitions */
+int fprintf_color(FILE* stream, const char* str, const char* color)
+{
+        return fprintf(stream, "%s%s%s", color, str, ANSI_RESET);
+}
+
+int fprintf_black(FILE* stream, const char* str)
+{
+        return fprintf_color(stream, str, ANSI_FOREGROUND_COLOR_BLACK);
+}
+
+int fprintf_red(FILE* stream, const char* str)
+{
+        return fprintf_color(stream, str, ANSI_FOREGROUND_COLOR_RED);
+}
+
+int fprintf_green(FILE* stream, const char* str)
+{
+        return fprintf_color(stream, str, ANSI_FOREGROUND_COLOR_GREEN);
+}
+
+int fprintf_yellow(FILE* stream, const char* str)
+{
+        return fprintf_color(stream, str, ANSI_FOREGROUND_COLOR_YELLOW);
+}
+
+int fprintf_blue(FILE* stream, const char* str)
+{
+        return fprintf_color(stream, str, ANSI_FOREGROUND_COLOR_BLUE);
+}
+
+int fprintf_magenta(FILE* stream, const char* str)
+{
+        return fprintf_color(stream, str, ANSI_FOREGROUND_COLOR_MAGENTA);
+}
+
+int fprintf_cyan(FILE* stream, const char* str)
+{
+        return fprintf_color(stream, str, ANSI_FOREGROUND_COLOR_CYAN);
+}
+
+int fprintf_white(FILE* stream, const char* str)
+{
+        return fprintf_color(stream, str, ANSI_FOREGROUND_COLOR_WHITE);
+}
 
 char *trimwhitespace(char *str)
 {
@@ -39,7 +86,18 @@ int tiggerExists(){
 }
 
 void printUsage(){
-	printf("Tigger -v: 0.25\nSorry we didn't recognize your command. Usage: tigger [COMMAND] [PARAMS] \nCommands include but are not limited to:\n\tinit\n\tnew [\"task-name\"]\n\ttasks\n\ttig\n\tcompleted\n\tdelete [\"task-name\"]\n\ttoday\n");
+        if (COLOR_FLAG) {
+	        fprintf_yellow(stdout, "Tigger -v: 0.25\n");
+                fprintf_red(stdout, "Sorry we didn't recognize your command.\n");
+                fprintf_blue(stdout, "Usage: tigger [--color|-c, --force|-f] [COMMAND] [PARAMS] \nCommands include but are "
+                                     "not limited to:\n\tinit\n\tnew [\"task-name\"]\n\ttasks\n\ttig"
+                                     "\n\tcompleted\n\tdelete [\"task-name\"]\n\ttoday\n");
+        } else {
+	        printf("Tigger -v: 0.25\nSorry we didn't recognize your command.\n"
+                       "Usage: tigger [--color|-c, --force|-f] [COMMAND] [PARAMS] \nCommands include but are "
+                       "not limited to:\n\tinit\n\tnew [\"task-name\"]\n\ttasks\n\ttig"
+                       "\n\tcompleted\n\tdelete [\"task-name\"]\n\ttoday\n");
+        }
 }
 
 int isCommand(char *command){
@@ -61,31 +119,47 @@ int checkForGit(){
     {
 		while ((ep = readdir(dp))){
 			if(!strcmp(ep->d_name, ".git")){
-				printf("Found Git repo....\n");
+				if (COLOR_FLAG)
+                                        fprintf_white(stdout, "Found Git repo....\n");
+                                else
+                                        printf("Found Git repo....\n");
 				return 1;
 			}
 		}
 	}
 	else{
-		printf("Could not open directory. Please try again later.");
+                if (COLOR_FLAG)
+		        fprintf_red(stdout, "Could not open directory. Please try again later.");
+                else
+		        printf("Could not open directory. Please try again later.");
 		return 0;
 	}
-	printf("Could not find git repository. Please make sure git is initialized in this directory and then try again.\n");
-	return 0;
+        if (COLOR_FLAG)
+	        fprintf_red(stdout, "Could not find git repository. Please make sure git is initialized in this directory and then try again.\n");
+        else
+	        printf("Could not find git repository. Please make sure git is initialized in this directory and then try again.\n");
+        return 0;
 }
 
-int initialize(char *args[]){
+int initialize(){
 	/*This function does the following: 
 	 -check to see if the current directory has a git repository in it
 	 -if so add a post-commit hook to the $GIT_DIR/hooks
 	 -create a .tigger file which contains all of our tasks
 	 */
 	if(tiggerExists()){  
-		if (args[2] == NULL || strcmp("-f",args[2]) != 0){
-			printf("Tigger has already been initialized in this directory.\n");
-			printf("Reinitializing will overwrite all of your current tasks.\n");
-			printf("If you really want to reinitialize, you can use the -f flag after tigger init.\n\n");
-			return 0; 
+		if (FORCE_FLAG == 0){
+                        if (COLOR_FLAG) {
+			        fprintf_red(stdout, "Tigger has already been initialized in this directory.\n");
+			        fprintf_red(stdout, "Reinitializing will overwrite all of your current tasks.\n");
+			        fprintf_red(stdout, "If you really want to reinitialize, you can use the -f or --force flag.\n\n");
+			        return 0;
+                        } else {
+                                printf("Tigger has already been initialized in this directory.\n");
+			        printf("Reinitializing will overwrite all of your current tasks.\n");
+			        printf("If you really want to reinitialize, you can use the -f or --force flag.\n\n");
+			        return 0;
+                        } 
 		}                           
 	}
 	if (checkForGit()){
@@ -112,7 +186,7 @@ int initialize(char *args[]){
 
 
 
-int addTask(char *args[]){
+int addTask(char *args[], int optind){
 	/*This function does the following:
 	 -open up the .tigger file
 	 -write the task to the .tigger file
@@ -121,19 +195,31 @@ int addTask(char *args[]){
 	if(!tiggerExists(args)){
 		return 0;
 	}
-	if(args[2]){
-		if(strlen(args[2]) < 255){
+	if(args[optind]){
+		if(strlen(args[optind]) < 255){
 			FILE *file = fopen(".tigger", "a+");
-			fprintf(file, "%s", args[2]);
+			fprintf(file, "%s", args[optind]);
 			fprintf(file, "\n");
 			fclose(file);
-			printf("Just added new task to tigger.\n");
-			printf("%s", args[2]);
-			printf("\n");
-			return 1;
+                        if (COLOR_FLAG) {
+			        fprintf_white(stdout, "Just added new task to tigger.\n");
+			        fprintf_green(stdout, args[optind]);
+			        printf("\n");
+			        return 1;
+                        } else {
+                                printf("Just added new task to tigger.\n");
+			        printf("%s", args[optind]);
+			        printf("\n");
+			        return 1;
+                        }
 		}else{
-			printf("Sorry you must enter a description that is less than 255 characters long.\n");
-			return 0;
+                        if (COLOR_FLAG) {
+                                fprintf_red(stdout, "Sorry you must enter a description that is less than 255 characters long.\n");
+			        return 0;
+                        } else {
+			        printf("Sorry you must enter a description that is less than 255 characters long.\n");
+			        return 0;
+                        }
 		}
 
 	}else{
@@ -162,22 +248,42 @@ int listTasks(){
 		return 0;
 	}
 	FILE *file = fopen(".tigger", "rt");
-	printf("\nLoading tasks from tigger...\n-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\n");
+	if (COLOR_FLAG)
+                fprintf_white(stdout, "\nLoading tasks from tigger...\n-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\n");
+        else
+                printf("\nLoading tasks from tigger...\n-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\n");
 	while(fgets(line, 255, file) != NULL){
 		if(!protectedText(line)){
 			count += 1;
-			printf("Task %d: \n", count);
-			printf("%s", trimwhitespace(line));
+                        if (COLOR_FLAG) {
+                                fprintf_yellow(stdout, "Task ");
+        		        fprintf(stdout, "%d", count);
+                                fprintf_yellow(stdout, ": \n");
+		                fprintf_green(stdout, trimwhitespace(line));
+                        } else {
+			        printf("Task %d: \n", count);
+			        printf("%s", trimwhitespace(line));
+                        }
 			printf("\n");
 
 		}
 	}
 	if (count > 0){
-		printf("You have %d tasks waiting to be completed.\n", count);
-		printf("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\n");
+		if (COLOR_FLAG) {
+                        fprintf_blue(stdout, "You have ");
+                        fprintf(stdout, "%d", count);
+                        fprintf_blue(stdout, " tasks waiting to be completed.\n");
+		        fprintf_white(stdout, "-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\n");
+                } else {
+                        printf("You have %d tasks waiting to be completed.\n", count);
+                        printf("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\n");
+               }
 
 	}else{
-		printf("Yay! You have no tasks remaining. Go have a beer.\n");
+		if (COLOR_FLAG)
+                        fprintf_blue(stdout, "Yay! You have no tasks remaining. Go have a beer.\n");
+                else 
+                        printf("Yay! You have no tasks remaining. Go have a beer.\n");
 	}
 	fclose(file);
 	return 1;
@@ -202,7 +308,13 @@ int tiggerToday(){
 			}
 		}
 	}
-	printf("%d tasks have been completed today.\n", count);
+        printf("%d ", count);
+        if (COLOR_FLAG)
+                fprintf_blue(stdout, "tasks have been completed today.\n");
+        else
+                printf("tasks have been completed today.\n");
+
+        return 0;
 }
      
 
@@ -222,7 +334,10 @@ int completedTasks(){
 		return 0;
 	}
 	FILE *file = fopen(".tigger_completed", "rt");
-	printf("\nLoading completed tasks from tigger...\n-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\n");
+	if (COLOR_FLAG)
+                fprintf_white(stdout, "\nLoading completed tasks from tigger...\n-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\n");
+        else
+                printf("\nLoading completed tasks from tigger...\n-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\n");
 	while(fgets(line, 255, file) != NULL){
 		if(!protectedText(line)){
 			count += 1;    
@@ -231,18 +346,36 @@ int completedTasks(){
 				index = found - line;
 			}  
 			new_string = &line[index+7];
-			printf("Task %d: \n", count);
-			printf("%s",trimwhitespace(new_string));
-			printf("\n");
+			if (COLOR_FLAG) {
+                                fprintf_yellow(stdout, "Task ");
+                                fprintf(stdout, "%d", count);
+                                fprintf_yellow(stdout, ": \n");
+			        fprintf_green(stdout, trimwhitespace(new_string));
+			        printf("\n");
+                        } else {
+                                printf("Task %d: \n", count);
+			        printf("%s",trimwhitespace(new_string));
+			        printf("\n");
+                        }
 
 		}
 	}
 	if (count > 0){
-		printf("You have completed %d tasks. Congrats!\n", count);
-		printf("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\n");
+                if (COLOR_FLAG) {
+		        fprintf_blue(stdout, "You have completed ");
+                        fprintf(stdout, "%d", count);
+                        fprintf_blue(stdout, " tasks. Congrats!\n");
+		        fprintf_white(stdout, "-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\n");
+                } else {
+		        printf("You have completed %d tasks. Congrats!\n", count);
+		        printf("-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\n");
+                }
 
 	}else{
-		printf("You haven't completed any tasks and are lazy. That is all.\n");
+		if (COLOR_FLAG)
+                        fprintf_red(stdout, "You haven't completed any tasks and are lazy. That is all.\n");
+                else
+                        printf("You haven't completed any tasks and are lazy. That is all.\n");
 	}
 	fclose(file);
 	return 1;
@@ -256,14 +389,17 @@ int deleteTask(char * task){
 	const char *TIGGER_TEMP = ".tigger_temp";
 	int found = 0;
 	if(task == NULL){
-		printf("Can't delete a null task.\n");
+		if (COLOR_FLAG)
+                        fprintf_red(stdout, "Can't delete a null task.\n");
+                else
+                        printf("Can't delete a null task.\n");
 		return 0;
 	}     
 	FILE *file = fopen(TIGGER_FILE_NAME, "r");
-	FILE *temp = fopen(TIGGER_TEMP, "w");                                                                      
+	FILE *temp = fopen(TIGGER_TEMP, "w");
 	while(fgets(line, 255, file) != NULL){
 		if(strcmp(trimwhitespace(line), trimwhitespace(task)) != 0){
-			fprintf(temp, "%s",line);
+                        fprintf(temp, "%s",line);
 			fprintf(temp, "\n");  
 		}else{
 			found = 1;
@@ -272,33 +408,43 @@ int deleteTask(char * task){
 	fclose(file);
 	fclose(temp);
 	if(found){
-		printf("We found your task and deleted it.\n");
+		if (COLOR_FLAG)
+                        fprintf_blue(stdout, "We found your task and deleted it.\n");
+                else
+                        printf("We found your task and deleted it.\n");
 		system("rm .tigger");
 		rename(TIGGER_TEMP, TIGGER_FILE_NAME);  
+                return 0;
 	}else{
 		system("rm .tigger_temp");
-		printf("Sorry we couldn't find the task to delete.\n");
+		if (COLOR_FLAG)
+                        fprintf_red(stdout, "Sorry we couldn't find the task to delete.\n");
+                else
+                        printf("Sorry we couldn't find the task to delete.\n");
 		return 0;
 	}
 }
 
-int processCommand(char *args[]){
-	if(args[1] != NULL){
-		if(!strcmp(args[1], "init")){
-			printf("Initializing Tigger in the current directory.\n");
-			return initialize(args);
-		}else if(!strcmp(args[1], "new")){
-			return addTask(args);
-		}else if(!strcmp(args[1], "tasks")){
+int processCommand(char *args[], int optind){
+	if(args[optind] != NULL){
+		if(!strcmp(args[optind], "init")){
+			if (COLOR_FLAG)
+                                fprintf_blue(stdout, "Initializing Tigger in the current directory.\n");
+                        else
+                                printf("Initializing Tigger in the current directory.\n");
+			return initialize(args, optind+1);
+		}else if(!strcmp(args[optind], "new")){
+			return addTask(args, optind+1);
+		}else if(!strcmp(args[optind], "tasks")){
 			return listTasks();
-		}else if(!strcmp(args[1], "tig")){
+		}else if(!strcmp(args[optind], "tig")){
 			printf("%s",tigger);
 			return 1;
-		}else if(!strcmp(args[1], "completed")){
+		}else if(!strcmp(args[optind], "completed")){
 			return completedTasks();
-		}else if(!strcmp(args[1], "delete")){
-			return deleteTask(args[2]);
-		}else if(!strcmp(args[1], "today")){
+		}else if(!strcmp(args[optind], "delete")){
+			return deleteTask(args[optind+1]);
+		}else if(!strcmp(args[optind], "today")){
 			tiggerToday();   
 			return 1;
 		}
@@ -311,7 +457,7 @@ int processCommand(char *args[]){
 
 void loadCommands(){
 	commands[0] = "init";
-	commands[1]	= "new";
+	commands[1] = "new";
 	commands[2] = "tasks";
 	commands[3] = "tig";
 	commands[4] = "completed";
@@ -321,10 +467,38 @@ void loadCommands(){
 
 int main (int argc, char * argv[]) {
 	loadCommands();
-	if(argv[1] && isCommand(argv[1])){
+
+        /* option parsing */
+        int c = 0;
+        int option_index = 0;
+
+        while ((c = getopt_long(argc, argv, "cf", long_options, &option_index)) != -1)
+        {
+                switch (c)
+                {
+                        case 0: /* longopt detected */
+                                break;
+                        case 'c': /* short option, color enabled */
+                                COLOR_FLAG = 1;
+                                break;
+                        case 'f':
+                                FORCE_FLAG = 1;
+                                break;
+                        default:
+                                fprintf(stdout, "Unknown option code %d\n", c);
+                                printUsage();
+                                return EXIT_FAILURE;
+                }
+        }
+
+        /* argument loop */
+	if(optind < argc && argv[optind] && isCommand(argv[optind])){
 		//then we want to process the command
-		if (!processCommand(argv)){
-			printf("Your command was not processed.\n");
+		if (!processCommand(argv, optind)){
+			if (COLOR_FLAG)
+                                fprintf_red(stdout, "Your command was not processed.\n");
+                        else
+                                printf("Your command was not processed.\n");
 		}
 	}else{
 		printUsage();
