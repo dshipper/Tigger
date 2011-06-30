@@ -7,6 +7,8 @@
  *
  */
 
+#include <getopt.h>
+
 char * commit_hook = "#!/usr/bin/env ruby \n"
 "require 'rubygems' \n"
 "require 'grit' \n"
@@ -100,3 +102,12 @@ typedef char * string;
 
 const int COMMAND_SIZE = 7;
 string commands[7];
+
+/* flag settings */
+static int COLOR_FLAG = 0;
+
+static struct option long_options[] =
+{
+        { "color", no_argument, &COLOR_FLAG, 1 },
+        { NULL, 0, 0, 0 }
+};
