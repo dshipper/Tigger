@@ -277,6 +277,7 @@ int deleteTask(char * task){
 		printf("We found your task and deleted it.\n");
 		system("rm .tigger");
 		rename(TIGGER_TEMP, TIGGER_FILE_NAME);  
+                return 0;
 	}else{
 		system("rm .tigger_temp");
 		printf("Sorry we couldn't find the task to delete.\n");
