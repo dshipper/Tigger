@@ -204,6 +204,7 @@ int tiggerToday(){
 		}
 	}
 	printf("%d tasks have been completed today.\n", count);
+        return 0;
 }
      
 
