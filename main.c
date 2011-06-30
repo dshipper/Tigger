@@ -87,7 +87,7 @@ int tiggerExists(){
 
 void printUsage(){
 	printf("Tigger -v: 0.25\nSorry we didn't recognize your command.\n"
-               "Usage: tigger [--color|-c] [COMMAND] [PARAMS] \nCommands include but are "
+               "Usage: tigger [--color|-c, --force|-f] [COMMAND] [PARAMS] \nCommands include but are "
                "not limited to:\n\tinit\n\tnew [\"task-name\"]\n\ttasks\n\ttig"
                "\n\tcompleted\n\tdelete [\"task-name\"]\n\ttoday\n");
 }
