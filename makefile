@@ -6,8 +6,7 @@ default: install
 install: tigger rubydeps
 	@echo "Copying Tigger into /usr/bin"
 	@echo "Please ensure the /usr/bin is in your path!"
-	cp tigger $(PREFIX)
->>>>>>> patch-1
+	cp tigger $(PREFIX) 
 	@echo "Finished. Tigger is installed. Type 'tigger' for usage."
 
 rubydeps:
