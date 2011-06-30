@@ -75,14 +75,14 @@ int checkForGit(){
 	return 0;
 }
 
-int initialize(char *args[]){
+int initialize(char *args[], int optind){
 	/*This function does the following: 
 	 -check to see if the current directory has a git repository in it
 	 -if so add a post-commit hook to the $GIT_DIR/hooks
 	 -create a .tigger file which contains all of our tasks
 	 */
 	if(tiggerExists()){  
-		if (args[2] == NULL || strcmp("-f",args[2]) != 0){
+		if (args[optind] == NULL || strcmp("-f",args[optind]) != 0){
 			printf("Tigger has already been initialized in this directory.\n");
 			printf("Reinitializing will overwrite all of your current tasks.\n");
 			printf("If you really want to reinitialize, you can use the -f flag after tigger init.\n\n");
@@ -113,7 +113,7 @@ int initialize(char *args[]){
 
 
 
-int addTask(char *args[]){
+int addTask(char *args[], int optind){
 	/*This function does the following:
 	 -open up the .tigger file
 	 -write the task to the .tigger file
@@ -122,14 +122,14 @@ int addTask(char *args[]){
 	if(!tiggerExists(args)){
 		return 0;
 	}
-	if(args[2]){
-		if(strlen(args[2]) < 255){
+	if(args[optind]){
+		if(strlen(args[optind]) < 255){
 			FILE *file = fopen(".tigger", "a+");
-			fprintf(file, "%s", args[2]);
+			fprintf(file, "%s", args[optind]);
 			fprintf(file, "\n");
 			fclose(file);
 			printf("Just added new task to tigger.\n");
-			printf("%s", args[2]);
+			printf("%s", args[optind]);
 			printf("\n");
 			return 1;
 		}else{
@@ -285,23 +285,23 @@ int deleteTask(char * task){
 	}
 }
 
-int processCommand(char *args[]){
-	if(args[1] != NULL){
-		if(!strcmp(args[1], "init")){
+int processCommand(char *args[], int optind){
+	if(args[optind] != NULL){
+		if(!strcmp(args[optind], "init")){
 			printf("Initializing Tigger in the current directory.\n");
-			return initialize(args);
-		}else if(!strcmp(args[1], "new")){
-			return addTask(args);
-		}else if(!strcmp(args[1], "tasks")){
+			return initialize(args, optind+1);
+		}else if(!strcmp(args[optind], "new")){
+			return addTask(args, optind+1);
+		}else if(!strcmp(args[optind], "tasks")){
 			return listTasks();
-		}else if(!strcmp(args[1], "tig")){
+		}else if(!strcmp(args[optind], "tig")){
 			printf("%s",tigger);
 			return 1;
-		}else if(!strcmp(args[1], "completed")){
+		}else if(!strcmp(args[optind], "completed")){
 			return completedTasks();
-		}else if(!strcmp(args[1], "delete")){
-			return deleteTask(args[2]);
-		}else if(!strcmp(args[1], "today")){
+		}else if(!strcmp(args[optind], "delete")){
+			return deleteTask(args[optind+1]);
+		}else if(!strcmp(args[optind], "today")){
 			tiggerToday();   
 			return 1;
 		}
@@ -324,9 +324,36 @@ void loadCommands(){
 
 int main (int argc, char * argv[]) {
 	loadCommands();
-	if(argv[1] && isCommand(argv[1])){
+
+        /* option parsing */
+        int c = 0;
+        int option_index = 0;
+
+        while ((c = getopt_long(argc, argv, "c", long_options, &option_index)) != -1)
+        {
+                switch (c)
+                {
+                        case 0: /* longopt detected */
+                                fprintf(stdout, "got long option %s\n",
+                                        long_options[option_index].name);
+                                break;
+                        case 'c': /* short option, color enabled */
+                                fprintf(stdout, "got short option for color\n");
+                                COLOR_FLAG = 1;
+                                break;
+                        default:
+                                fprintf(stdout, "Unknown option code %d\n", c);
+                                printUsage();
+                                return EXIT_FAILURE;
+                }
+        }
+
+        fprintf(stderr, "COLOR_FLAG = %d\n", COLOR_FLAG);
+
+        /* argument loop */
+	if(optind < argc && argv[optind] && isCommand(argv[optind])){
 		//then we want to process the command
-		if (!processCommand(argv)){
+		if (!processCommand(argv, optind)){
 			printf("Your command was not processed.\n");
 		}
 	}else{
