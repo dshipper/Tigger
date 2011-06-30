@@ -105,10 +105,12 @@ string commands[7];
 
 /* flag settings */
 static int COLOR_FLAG = 0;
+static int FORCE_FLAG = 0;
 
 static struct option long_options[] =
 {
         { "color", no_argument, &COLOR_FLAG, 1 },
+        { "force", no_argument, &FORCE_FLAG, 1 },
         { NULL, 0, 0, 0 }
 };
 

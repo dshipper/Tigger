@@ -131,11 +131,18 @@ int initialize(char *args[], int optind){
 	 -create a .tigger file which contains all of our tasks
 	 */
 	if(tiggerExists()){  
-		if (args[optind] == NULL || strcmp("-f",args[optind]) != 0){
-			printf("Tigger has already been initialized in this directory.\n");
-			printf("Reinitializing will overwrite all of your current tasks.\n");
-			printf("If you really want to reinitialize, you can use the -f flag after tigger init.\n\n");
-			return 0; 
+		if (FORCE_FLAG == 0){
+                        if (COLOR_FLAG) {
+			        fprintf_red(stdout, "Tigger has already been initialized in this directory.\n");
+			        fprintf_red(stdout, "Reinitializing will overwrite all of your current tasks.\n");
+			        fprintf_red(stdout, "If you really want to reinitialize, you can use the -f or --force flag.\n\n");
+			        return 0;
+                        } else {
+                                printf("Tigger has already been initialized in this directory.\n");
+			        printf("Reinitializing will overwrite all of your current tasks.\n");
+			        printf("If you really want to reinitialize, you can use the -f or --force flag.\n\n");
+			        return 0;
+                        } 
 		}                           
 	}
 	if (checkForGit()){
@@ -378,17 +385,17 @@ int main (int argc, char * argv[]) {
         int c = 0;
         int option_index = 0;
 
-        while ((c = getopt_long(argc, argv, "c", long_options, &option_index)) != -1)
+        while ((c = getopt_long(argc, argv, "cf", long_options, &option_index)) != -1)
         {
                 switch (c)
                 {
                         case 0: /* longopt detected */
-                                fprintf(stdout, "got long option %s\n",
-                                        long_options[option_index].name);
                                 break;
                         case 'c': /* short option, color enabled */
-                                fprintf(stdout, "got short option for color\n");
                                 COLOR_FLAG = 1;
+                                break;
+                        case 'f':
+                                FORCE_FLAG = 1;
                                 break;
                         default:
                                 fprintf(stdout, "Unknown option code %d\n", c);
