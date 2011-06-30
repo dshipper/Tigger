@@ -8,6 +8,52 @@
 #include <time.h>
 #include "tigger_util.h"
 
+/* color helper function definitions */
+int fprintf_color(FILE* stream, const char* str, const char* color)
+{
+        return fprintf(stream, "%s%s%s", color, str, ANSI_RESET);
+}
+
+int fprintf_black(FILE* stream, const char* str)
+{
+        return fprintf_color(stream, str, ANSI_FOREGROUND_COLOR_BLACK);
+}
+
+int fprintf_red(FILE* stream, const char* str)
+{
+        return fprintf_color(stream, str, ANSI_FOREGROUND_COLOR_RED);
+}
+
+int fprintf_green(FILE* stream, const char* str)
+{
+        return fprintf_color(stream, str, ANSI_FOREGROUND_COLOR_GREEN);
+}
+
+int fprintf_yellow(FILE* stream, const char* str)
+{
+        return fprintf_color(stream, str, ANSI_FOREGROUND_COLOR_YELLOW);
+}
+
+int fprintf_blue(FILE* stream, const char* str)
+{
+        return fprintf_color(stream, str, ANSI_FOREGROUND_COLOR_BLUE);
+}
+
+int fprintf_magenta(FILE* stream, const char* str)
+{
+        return fprintf_color(stream, str, ANSI_FOREGROUND_COLOR_MAGENTA);
+}
+
+int fprintf_cyan(FILE* stream, const char* str)
+{
+        return fprintf_color(stream, str, ANSI_FOREGROUND_COLOR_CYAN);
+}
+
+int fprintf_white(FILE* stream, const char* str)
+{
+        return fprintf_color(stream, str, ANSI_FOREGROUND_COLOR_WHITE);
+}
+
 char *trimwhitespace(char *str)
 {
 	char *end;
@@ -317,7 +363,7 @@ int processCommand(char *args[], int optind){
 
 void loadCommands(){
 	commands[0] = "init";
-	commands[1]	= "new";
+	commands[1] = "new";
 	commands[2] = "tasks";
 	commands[3] = "tig";
 	commands[4] = "completed";
