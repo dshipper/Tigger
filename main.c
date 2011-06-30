@@ -40,7 +40,10 @@ int tiggerExists(){
 }
 
 void printUsage(){
-	printf("Tigger -v: 0.25\nSorry we didn't recognize your command. Usage: tigger [COMMAND] [PARAMS] \nCommands include but are not limited to:\n\tinit\n\tnew [\"task-name\"]\n\ttasks\n\ttig\n\tcompleted\n\tdelete [\"task-name\"]\n\ttoday\n");
+	printf("Tigger -v: 0.25\nSorry we didn't recognize your command.\n"
+               "Usage: tigger [--color|-c] [COMMAND] [PARAMS] \nCommands include but are "
+               "not limited to:\n\tinit\n\tnew [\"task-name\"]\n\ttasks\n\ttig"
+               "\n\tcompleted\n\tdelete [\"task-name\"]\n\ttoday\n");
 }
 
 int isCommand(char *command){
