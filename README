@@ -18,3 +18,9 @@ tigger new "Complete this task"
 tigger tasks //will print out all the current tasks
 
 git commit -am "Complete this task" //Tigger will automagically know that you have completed a task
+
+Monitor tasks with color:
+
+watch --color -n 60 -- tigger -c tasks
+
+This will refresh every 60 seconds in color your list of tasks.
