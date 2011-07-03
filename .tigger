@@ -1,4 +1,3 @@
-BEGIN_TIGGER  
 Separate tasks added by different users
 Add better tracking of who completed what task
 remove rubygems dependency

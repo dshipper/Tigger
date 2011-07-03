@@ -1,11 +1,11 @@
 objects := main.o     
 PREFIX := /usr/local/bin
 
-default: install
+default: tigger
 
 install: tigger rubydeps
-	@echo "Copying Tigger into /usr/bin"
-	@echo "Please ensure the /usr/bin is in your path!"
+	@echo "Copying Tigger into /usr/local/bin"
+	@echo "Please ensure the /usr/local/bin is in your path!"
 	cp tigger $(PREFIX) 
 	@echo "Finished. Tigger is installed. Type 'tigger' for usage."
 

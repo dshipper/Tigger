@@ -87,13 +87,13 @@ int tiggerExists(){
 
 void printUsage(){
         if (COLOR_FLAG) {
-	        fprintf_yellow(stdout, "Tigger -v: 0.25\n");
+	        fprintf_yellow(stdout, "Tigger -v: 0.26\n");
                 fprintf_red(stdout, "Sorry we didn't recognize your command.\n");
                 fprintf_blue(stdout, "Usage: tigger [--color|-c, --force|-f] [COMMAND] [PARAMS] \nCommands include but are "
                                      "not limited to:\n\tinit\n\tnew [\"task-name\"]\n\ttasks\n\ttig"
                                      "\n\tcompleted\n\tdelete [\"task-name\"]\n\ttoday\n");
         } else {
-	        printf("Tigger -v: 0.25\nSorry we didn't recognize your command.\n"
+	        printf("Tigger -v: 0.26\nSorry we didn't recognize your command.\n"
                        "Usage: tigger [--color|-c, --force|-f] [COMMAND] [PARAMS] \nCommands include but are "
                        "not limited to:\n\tinit\n\tnew [\"task-name\"]\n\ttasks\n\ttig"
                        "\n\tcompleted\n\tdelete [\"task-name\"]\n\ttoday\n");
@@ -414,7 +414,7 @@ int deleteTask(char * task){
                         printf("We found your task and deleted it.\n");
 		system("rm .tigger");
 		rename(TIGGER_TEMP, TIGGER_FILE_NAME);  
-                return 0;
+		return 1;
 	}else{
 		system("rm .tigger_temp");
 		if (COLOR_FLAG)
