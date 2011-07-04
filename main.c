@@ -6,6 +6,7 @@
 #include <string.h>    
 #include <time.h>
 #include "tigger_util.h"
+#include "post_commit_hook.h"
 
 char *trimwhitespace(char *str)
 {
@@ -92,7 +93,7 @@ int initialize(char *args[]){
 		//now we go in and modify the post-commit hook file to our liking 
 		FILE *file;
 		file = fopen(".git/hooks/post-commit", "w");
-		fprintf(file, "%s", commit_hook);
+		fprintf(file, "%s", POST_COMMIT_HOOK);
 		fclose(file);
 		system("chmod 744 .git/hooks/post-commit");
 		file = fopen(".tigger", "w");
