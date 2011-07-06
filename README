@@ -1,11 +1,16 @@
 This is Tigger.  
 
+Roadmap:
+Pivotal tracker integration coming soon!
+
 Installation:
 Navigate to the directory you downloaded tigger to.
 Type "make"
 You're ready to roar.
 
-Usage: (In a project dir that uses Git) 
+Usage: (In a project dir that uses Git)  
+tigger // this will print out usage 
+
 tigger init //this initializes relevant tigger files
 
 tigger new "Complete this task"
@@ -13,3 +18,9 @@ tigger new "Complete this task"
 tigger tasks //will print out all the current tasks
 
 git commit -am "Complete this task" //Tigger will automagically know that you have completed a task
+
+Monitor tasks with color:
+
+watch --color -n 60 -- tigger -c tasks
+
+This will refresh every 60 seconds in color your list of tasks.

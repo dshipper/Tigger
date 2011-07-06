@@ -1,12 +1,23 @@
-objects = main.o
-generated_dependencies = post_commit_hook.h
+objects := main.o     
+PREFIX := /usr/local/bin
+autogen := post_commit_hook.h
 
-tigger : $(generated_dependencies) $(objects)
-	@echo "Linking source files..."
-	cc -o tigger $(objects)       
-	# @echo "Copying Tigger into homebrew's path"
-	# cp tigger /usr/bin                                
+default: tigger
+
+install: tigger rubydeps
+	@echo "Copying Tigger into /usr/local/bin"
+	@echo "Please ensure the /usr/local/bin is in your path!"
+	cp tigger $(PREFIX) 
 	@echo "Finished. Tigger is installed. Type 'tigger' for usage."
+
+rubydeps:
+	@echo "Installing Ruby dependency Grit"
+	@echo "Note that Ruby must be installed for this to work"
+	gem install grit                                         
+
+tigger : $(autogen) $(objects)
+	@echo "Linking source files..."
+	cc -o $@ $(objects)       
 
 post_commit_hook.h : post_commit_hook.rb
 	@echo "Generating commit_hook header"
@@ -14,7 +25,7 @@ post_commit_hook.h : post_commit_hook.rb
 
 main.o : tigger_util.h main.c
 	@echo "Installing Tigger....."
-	cc -c main.c                     
+	cc -Wall -c main.c
 
 clean :
 	rm edit $(objects) $(generated_dependencies)
