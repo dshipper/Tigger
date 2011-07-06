@@ -9,45 +9,6 @@
 
 #include <getopt.h>
 
-char * commit_hook = "#!/usr/bin/env ruby \n"
-"require 'rubygems' \n"
-"require 'grit' \n"
-"include Grit \n"
-
-"puts 'Running tigger....' \n"
-"puts 'Matching tasks and commit messages.' \n"
-
-"repo = Repo.new('./') \n"
-"commits = repo.commits \n"
-
-"tigger = File.new('.tigger', 'r') \n"
-"tasks = Array.new \n"
-"completed_tasks = Array.new \n"
-
-"tigger.each_line { |line|  tasks << line } \n"
-
-"tasks.each do | task | \n"
-"commits.each do | commit | \n"                                                         
-"if (commit.message.strip.upcase.index(task.strip.upcase) != nil) \n"
-"completed_tasks << (Time.now.to_i.to_s + \"<?TIG?>\" + task) \n"
-"tasks.delete task \n" 
-"puts('Completed task: ' + task.strip + '.')\n "
-"end \n"
-"end  \n"  
-"end\n "
-
-"tigger.close\n "
-
-"tigger = File.new('.tigger', 'w') \n"
-
-"tasks.each { |task| tigger.write task } \n"
-
-"tigger.close  \n"
-
-"tigger_completed = File.new('.tigger_completed', 'a+') \n"
-"completed_tasks.each { |task| tigger_completed.write task } \n"
-"tigger_completed.close ";
-
 char * tigger = "			                          _.- -.- -._     ..                                                 \n"
 "			                             .;;'  .oe$$$eeu.. ,?;UU.                                        \n"
 "   		                          ,+'!!  e$$$$$$$R$$$$x ?xd$)                                        \n"
