@@ -1,5 +1,6 @@
 objects := main.o     
 PREFIX := /usr/local/bin
+autogen := post_commit_hook.h
 
 default: tigger
 
@@ -14,13 +15,17 @@ rubydeps:
 	@echo "Note that Ruby must be installed for this to work"
 	gem install grit                                         
 
-tigger : $(objects)
+tigger : $(autogen) $(objects)
 	@echo "Linking source files..."
 	cc -o $@ $(objects)       
 
-main.o : main.c tigger_util.h
+post_commit_hook.h : post_commit_hook.rb
+	@echo "Generating commit_hook header"
+	./rb2h.rb POST_COMMIT_HOOK
+
+main.o : tigger_util.h main.c
 	@echo "Installing Tigger....."
 	cc -Wall -c main.c
 
 clean :
-	rm edit $(objects)
+	rm edit $(objects) $(generated_dependencies)
