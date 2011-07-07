@@ -1,12 +1,3 @@
-/*
- *  tigger_util.h
- *  Tigger
- *
- *  Created by Dan Shipper on 6/21/11.
- *  Copyright 2011 __MyCompanyName__. All rights reserved.
- *
- */
-
 #include <getopt.h>
 
 char * tigger = "			                          _.- -.- -._     ..                                                 \n"
