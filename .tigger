@@ -2,6 +2,4 @@ Separate tasks added by different users
 Add better tracking of who completed what task
 remove rubygems dependency
 Add pivotal tracker integration.
-fix multiple task per commit not getting marked off
 fix 1
-fix 2
