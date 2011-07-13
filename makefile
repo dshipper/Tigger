@@ -17,7 +17,7 @@ rubydeps:
 
 tigger : $(autogen) $(objects)
 	@echo "Linking source files..."
-	cc -o $@ $(objects)       
+	cc -o $@ $(objects) -ljansson       
 
 post_commit_hook.h : post_commit_hook.rb
 	@echo "Generating commit_hook header"
@@ -25,7 +25,7 @@ post_commit_hook.h : post_commit_hook.rb
 
 main.o : tigger_util.h main.c
 	@echo "Installing Tigger....."
-	cc -Wall -c main.c -ljansson
+	cc -Wall -c main.c 
 
 clean :
 	rm edit $(objects) $(generated_dependencies)

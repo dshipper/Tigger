@@ -89,13 +89,13 @@ int tiggerExists(){
 
 void printUsage(){
         if (COLOR_FLAG) {
-	        fprintf_yellow(stdout, "Tigger -v: 0.27\n");
+	        fprintf_yellow(stdout, "Tigger -v: 0.28\n");
                 fprintf_red(stdout, "Sorry we didn't recognize your command.\n");
                 fprintf_blue(stdout, "Usage: tigger [--color|-c, --force|-f] [COMMAND] [PARAMS] \nCommands include but are "
                                      "not limited to:\n\tinit\n\tnew [\"task-name\"]\n\ttasks\n\ttig"
                                      "\n\tcompleted\n\tdelete [\"task-name\"]\n\ttoday\n");
         } else {
-	        printf("Tigger -v: 0.27\nSorry we didn't recognize your command.\n"
+	        printf("Tigger -v: 0.28\nSorry we didn't recognize your command.\n"
                        "Usage: tigger [--color|-c, --force|-f] [COMMAND] [PARAMS] \nCommands include but are "
                        "not limited to:\n\tinit\n\tnew [\"task-name\"]\n\ttasks\n\ttig"
                        "\n\tcompleted\n\tdelete [\"task-name\"]\n\ttoday\n");
@@ -263,15 +263,20 @@ int listTasks(){
                 printf("\nLoading tasks from tigger...\n-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\n");
 	while(fgets(line, 255, file) != NULL){
 		if(!protectedText(line)){
+			json_t *task = json_loads(line,  0, NULL);
+			json_t *test;
+			test = json_object_get(task, "task");
+			
+			
 			count += 1;
                         if (COLOR_FLAG) {
-                                fprintf_yellow(stdout, "Task ");
-        		        fprintf(stdout, "%d", count);
-                                fprintf_yellow(stdout, ": \n");
-		                fprintf_green(stdout, trimwhitespace(line));
+							fprintf_yellow(stdout, "Task ");
+							fprintf(stdout, "%d", count);
+							fprintf_yellow(stdout, ": \n");
+							fprintf_green(stdout, trimwhitespace(line));
                         } else {
-			        printf("Task %d: \n", count);
-			        printf("%s", trimwhitespace(line));
+							printf("Task %d: \n", count);
+							printf("%s", trimwhitespace(line));
                         }
 			printf("\n");
 
