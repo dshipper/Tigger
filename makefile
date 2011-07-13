@@ -25,7 +25,7 @@ post_commit_hook.h : post_commit_hook.rb
 
 main.o : tigger_util.h main.c
 	@echo "Installing Tigger....."
-	cc -Wall -c main.c
+	cc -Wall -c main.c -ljansson
 
 clean :
 	rm edit $(objects) $(generated_dependencies)

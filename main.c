@@ -8,6 +8,7 @@
 #include <time.h>
 #include "tigger_util.h"
 #include "post_commit_hook.h"
+#include <jansson.h>
 
 /* color helper function definitions */
 int fprintf_color(FILE* stream, const char* str, const char* color)
@@ -467,6 +468,11 @@ void loadCommands(){
 }
 
 int main (int argc, char * argv[]) {
+	json_error_t error;
+	json_t *root;
+	
+	root = json_loads("ASDFASDFASDF", 0, &error);
+	
 	loadCommands();
 
         /* option parsing */
