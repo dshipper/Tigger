@@ -2,3 +2,4 @@ Separate tasks added by different users
 Add better tracking of who completed what task
 remove rubygems dependency
 Add pivotal tracker integration.
+{ "task" : "test", "assigned_to" : 0, "created" : "Tue 2011-07-12 23:35:08 EDT", "completed_by" : 0, "completed_at" : 0 }

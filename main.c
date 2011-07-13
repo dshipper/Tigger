@@ -89,13 +89,13 @@ int tiggerExists(){
 
 void printUsage(){
         if (COLOR_FLAG) {
-	        fprintf_yellow(stdout, "Tigger -v: 0.26\n");
+	        fprintf_yellow(stdout, "Tigger -v: 0.27\n");
                 fprintf_red(stdout, "Sorry we didn't recognize your command.\n");
                 fprintf_blue(stdout, "Usage: tigger [--color|-c, --force|-f] [COMMAND] [PARAMS] \nCommands include but are "
                                      "not limited to:\n\tinit\n\tnew [\"task-name\"]\n\ttasks\n\ttig"
                                      "\n\tcompleted\n\tdelete [\"task-name\"]\n\ttoday\n");
         } else {
-	        printf("Tigger -v: 0.26\nSorry we didn't recognize your command.\n"
+	        printf("Tigger -v: 0.27\nSorry we didn't recognize your command.\n"
                        "Usage: tigger [--color|-c, --force|-f] [COMMAND] [PARAMS] \nCommands include but are "
                        "not limited to:\n\tinit\n\tnew [\"task-name\"]\n\ttasks\n\ttig"
                        "\n\tcompleted\n\tdelete [\"task-name\"]\n\ttoday\n");
@@ -199,8 +199,15 @@ int addTask(char *args[], int optind){
 	}
 	if(args[optind]){
 		if(strlen(args[optind]) < 255){
-			FILE *file = fopen(".tigger", "a+");
-			fprintf(file, "%s", args[optind]);
+			time_t     now;
+			struct tm *ts;
+			char       buf[80];
+			
+			now = time(0);
+			ts = localtime(&now);
+			strftime(buf, sizeof(buf), "%a %Y-%m-%d %H:%M:%S %Z", ts);
+		    FILE *file = fopen(".tigger", "a+");
+			fprintf(file, "{ \"task\" : \"%s\", \"assigned_to\" : 0, \"created\" : \"%s\", \"completed_by\" : 0, \"completed_at\" : 0 }", args[optind], buf);
 			fprintf(file, "\n");
 			fclose(file);
                         if (COLOR_FLAG) {
@@ -468,11 +475,6 @@ void loadCommands(){
 }
 
 int main (int argc, char * argv[]) {
-	json_error_t error;
-	json_t *root;
-	
-	root = json_loads("ASDFASDFASDF", 0, &error);
-	
 	loadCommands();
 
         /* option parsing */
